@@ -15,7 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AdminRegister 管理员登录接口
+// AdminRegister 管理员注册接口
 func AdminRegister(c *gin.Context) {
 	var service service.AdminRegisterService
 	if err := c.ShouldBind(&service); err == nil {
@@ -32,6 +32,18 @@ func AdminLogin(c *gin.Context) {
 	var service service.AdminLoginService
 	if err := c.ShouldBind(&service); err == nil {
 		res := service.Login()
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
+	}
+}
+
+// AdminUpdate 管理员更改密码接口
+func AdminUpdate(c *gin.Context) {
+	var service service.AdminUpdateService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Update()
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
